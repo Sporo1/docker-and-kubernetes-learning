@@ -1,0 +1,52 @@
+name: "Goal App"
+
+services:
+  mongodb:
+    image: "mongo"
+    volumes:
+      - goalsdatabase:/data/db
+    #environment:
+       #MONGO_INITDB_ROOT_USERNAME: sipo
+       #MONGO_INITDB_ROOT_PASSWORD: sipo123
+       #or
+       #- MONGO_INITDB_ROOT_USERNAME=sipo
+     #or
+    env_file:
+      - ./env/mongo.env
+  backend:
+    #  build: ./backend
+    #or
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        DEFAULT_PORT: 8000
+    ports:
+      - "8000:8000"    
+    volumes:
+      - logs:/app/logs
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./env/backend.env
+    depends_on: 
+      - mongodb
+  frontend:
+    build: 
+      context: ./frontend
+      args: 
+        DEFAULT_PORT: 3000
+        DEFAULT_API_PORT: 8000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+    stdin_open: true
+    tty: true
+    depends_on: 
+      - backend
+    
+volumes:
+  goalsdatabase:
+  logs: 
+    

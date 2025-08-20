@@ -1,0 +1,21 @@
+FROM  node
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN  npm install
+
+COPY . .
+
+ARG DEFAULT_PORT=80
+
+ENV PORT $DEFAULT_PORT
+
+ENV MONGODB_USERNAME=sipo
+
+ENV MONGODB_PASSWORD=sipo123
+
+EXPOSE $PORT
+
+CMD [ "npm" , "start" ]
