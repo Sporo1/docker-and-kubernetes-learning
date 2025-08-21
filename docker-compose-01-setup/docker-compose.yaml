@@ -5,6 +5,7 @@ services:
     image: "mongo"
     volumes:
       - goalsdatabase:/data/db
+    container_name: mongodb 
     #environment:
        #MONGO_INITDB_ROOT_USERNAME: sipo
        #MONGO_INITDB_ROOT_PASSWORD: sipo123
@@ -27,6 +28,7 @@ services:
       - logs:/app/logs
       - ./backend:/app
       - /app/node_modules
+    container_name: "goalapp-backend"
     env_file:
       - ./env/backend.env
     depends_on: 
@@ -41,6 +43,7 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend/src:/app/src
+    container_name: "goalapp-frontend"
     stdin_open: true
     tty: true
     depends_on: 
