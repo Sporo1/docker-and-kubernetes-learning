@@ -1,0 +1,11 @@
+name: "create-node-app"
+
+services:
+  utility:
+      build: ./
+      volumes:
+        - ./:/app
+
+      container_name: "node-utility"
+      stdin_open: true
+      tty: true
